@@ -179,20 +179,25 @@ class Row:
         self.currentRow = self.nextRow
         self.nextRow = []
 
-def main(m):
+def main(columns, rows, run_without_input=False):
+    if run_without_input and rows < 1:
+        rows = 15
     mainRow = Row()
-    for i in range(m):
+    for i in range(columns):
         mainRow.addCell()
     mainRow.printTop()
-    while True:
+    while rows != 1:
         mainRow.join()
         mainRow.openBottoms()
         mainRow.repopulate()
         mainRow.printRow()
         mainRow.printBelow()
         mainRow.step()
-        if raw_input() == "q":
+        if not run_without_input and raw_input() == "q":
             break
+        if run_without_input:
+            print("")
+        rows -= 1
     mainRow.join(1)
     mainRow.printRow()
     mainRow.printBelow()
@@ -200,7 +205,13 @@ def main(m):
 
 if __name__ == "__main__":
     m = 15
+    n = -1
+    r = False
     if len(os.sys.argv) > 1:
         m = int(os.sys.argv[1])
-    main(m)
+    if len(os.sys.argv) > 2:
+        n = int(os.sys.argv[2])
+    if len(os.sys.argv) > 3:
+        r = True
+    main(m, n, r)
 
