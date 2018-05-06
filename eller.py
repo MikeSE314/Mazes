@@ -122,15 +122,18 @@ class Row:
         print("|", end="")
         for cell in self.currentRow:
             cell.printSelf()
+        print("")
 
     def printBelow(self):
         print("|", end="")
         for cell in self.currentRow:
             cell.printBelow()
 
-    def join(self):
+    def join(self, probability=None):
+        if not probability:
+            probability = self.PROBABILITY
         for i in range(len(self.currentRow) - 1):
-            if random.random() < self.PROBABILITY and \
+            if random.random() < probability and \
                     self.currentRow[i].getSet() != \
                     self.currentRow[i + 1].getSet():
                 self.currentRow[i].openRight()
@@ -186,11 +189,14 @@ def main(m):
         mainRow.openBottoms()
         mainRow.repopulate()
         mainRow.printRow()
-        print("")
         mainRow.printBelow()
         mainRow.step()
         if raw_input() == "q":
-            quit()
+            break
+    mainRow.join(1)
+    mainRow.printRow()
+    mainRow.printBelow()
+    print("")
 
 if __name__ == "__main__":
     m = 15
